@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jimmy.androidproject.event.EventGroups xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8BC34A"
+    android:orientation="vertical">
+
+
+    <com.jimmy.androidproject.event.EventViews
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#E91E63" />
+
+
+</com.jimmy.androidproject.event.EventGroups>
