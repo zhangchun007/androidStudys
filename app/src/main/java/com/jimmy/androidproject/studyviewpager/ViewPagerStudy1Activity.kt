@@ -1,4 +1,4 @@
-package com.jimmy.androidproject.viewpager
+package com.jimmy.androidproject.studyviewpager
 
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import com.jimmy.androidproject.R
 import com.jimmy.androidproject.databinding.ActivityViewpagerStudy1Binding
-import com.jimmy.androidproject.databinding.ActivityViewpagerStudyBinding
 import com.jimmy.androidproject.inflate
-import java.util.logging.Logger
-import kotlin.math.log
 
 /**
  * @Description:

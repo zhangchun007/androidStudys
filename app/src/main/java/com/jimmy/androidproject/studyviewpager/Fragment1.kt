@@ -1,4 +1,4 @@
-package com.jimmy.androidproject.viewpager
+package com.jimmy.androidproject.studyviewpager
 
 import android.os.Bundle
 import android.util.Log
@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.jimmy.androidproject.R
-import com.jimmy.androidproject.databinding.ActivityViewpagerStudy1Binding
-import com.jimmy.androidproject.inflate
 
 /**
  * @Description:

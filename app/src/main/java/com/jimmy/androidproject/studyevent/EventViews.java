@@ -1,4 +1,4 @@
-package com.jimmy.androidproject.event;
+package com.jimmy.androidproject.studyevent;
 
 import android.content.Context;
 import android.util.AttributeSet;

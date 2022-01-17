@@ -11,8 +11,8 @@ import com.jimmy.androidproject.adapter.MainAdapter
 import com.jimmy.androidproject.bean.Project
 import com.jimmy.androidproject.databinding.ActivityMainBinding
 import com.jimmy.androidproject.studycontentprovider.ContentProividerActivity
-import com.jimmy.androidproject.viewpager.ViewPagerStudyActivity
-import com.jimmy.androidproject.event.EventStudyActivity
+import com.jimmy.androidproject.studyviewpager.ViewPagerStudyActivity
+import com.jimmy.androidproject.studyevent.EventStudyActivity
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
 

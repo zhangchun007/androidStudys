@@ -1,4 +1,4 @@
-package com.jimmy.androidproject.viewpager
+package com.jimmy.androidproject.studyviewpager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

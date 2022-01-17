@@ -26,10 +26,10 @@
         </activity>
         <activity android:name=".studycontentprovider.ContentProividerActivity" />
         <activity android:name=".studycontentprovider.ContactsActivity" />
-        <activity android:name=".viewpager.ViewPagerStudyActivity" />
-        <activity android:name=".viewpager.ViewPagerStudy1Activity" />
-        <activity android:name=".viewpager.ViewPagerStudy2Activity" />
-        <activity android:name=".event.EventStudyActivity" />
+        <activity android:name=".studyviewpager.ViewPagerStudyActivity" />
+        <activity android:name=".studyviewpager.ViewPagerStudy1Activity" />
+        <activity android:name=".studyviewpager.ViewPagerStudy2Activity" />
+        <activity android:name=".studyevent.EventStudyActivity" />
     </application>
 
 </manifest>

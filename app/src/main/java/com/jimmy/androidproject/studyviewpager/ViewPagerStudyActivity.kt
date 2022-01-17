@@ -1,17 +1,11 @@
-package com.jimmy.androidproject.viewpager
+package com.jimmy.androidproject.studyviewpager
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.PagerAdapter
 import com.jimmy.androidproject.R
 import com.jimmy.androidproject.databinding.ActivityViewpagerStudyBinding
 import com.jimmy.androidproject.inflate
-import java.util.logging.Logger
-import kotlin.math.log
 
 /**
  * @Description:

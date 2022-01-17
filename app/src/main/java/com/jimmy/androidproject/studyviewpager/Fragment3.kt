@@ -1,4 +1,4 @@
-package com.jimmy.androidproject.viewpager
+package com.jimmy.androidproject.studyviewpager
 
 import android.os.Bundle
 import android.view.LayoutInflater
