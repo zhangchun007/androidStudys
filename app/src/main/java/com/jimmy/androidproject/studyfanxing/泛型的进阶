@@ -1,0 +1,326 @@
+### 类型绑定--泛型的上界（extends）
+
+首先，我们要知道一点，任何的泛型变量（比如这里的T）都是派生自Object，变量T x能调用哪些函数呢？
+当然只能调用Object所具有的函数，因为编译器根本不知道T具体是什么类型，编译器唯一能确定的是，无论什么类型，都是派生自Object的，
+所以T肯定是Object的子类，所以T是可以调用Object的方法的。
+
+
+但是有时候，你会希望泛型类型只能是某一部分类型，比如操作数据的时候，你会希望是Number或其子类类型。这个想法其实就是给泛型参数添加一个界限。其定义形式为：
+```
+<T extends BoundingType>
+```
+⚠️：
+**此定义表示T应该是BoundingType的子类型（subtype）。T和BoundingType可以是类，也可以是接口。另外注意的是，此处的”extends“表示的子类型，不等同于继承。**
+
+#### 绑定接口
+举个例子：
+如果我想写一个找到最小值的泛型类；由于不知道用户会传什么类型，所以要写一个接口,让用户实现这个接口来自已对比他所传递的类型的大小。
+```
+//泛型接口
+public interface Comparable<T>{
+    public boolean compareTo(T i);
+}
+
+//添加上extends Comparable之后，就可以Comparable里的函数了
+public static <T extends Comparable>  T min(T...a){
+    T smallest = a[0];
+    for(T item:a){
+        if (smallest.compareTo(item)){
+            smallest = item;
+        }
+    }
+    return smallest;
+}
+
+```
+然后我们实现一个派生自Comparable接口的类：
+```
+public class StringCompare implements Comparable<StringCompare> {
+    private String mStr;
+
+    public StringCompare(String string){
+        this.mStr = string;
+    }
+
+    @Override
+    public  boolean compareTo(StringCompare str) {
+        if (mStr.length() > str.mStr.length()){
+            return true;
+        }
+        return false;
+    }
+}
+```
+在这段代码，大家可能会疑惑为什么把T也填充为StringCompare类型，因为smallest和item是同一类型，这样他们才能调用compareTo方法！！
+
+调用实现：
+```
+StringCompare result = min(new  StringCompare("123"),new StringCompare("234"),new StringCompare("59897"));
+Log.d(TAG,"min:"+result.mStr);
+```
+
+#### 绑定类
+我们假设，我们有很多种类的水果，需要写一个函数，打印出填充进去水果的名字：
+
+```
+class Fruit {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+class Banana extends Fruit{
+    public Banana(){
+        setName("bababa");
+    }
+}
+class Apple extends Fruit{
+    public Apple(){
+        setName("apple");
+    }
+}
+
+//定义的方法
+public static <T extends Fruit> String getFruitName(T t){
+    return t.getName();
+}
+
+```
+//调用
+```
+  String name1=StaticFans.getFruitName(new Banana());
+  String name2=StaticFans.getFruitName(new Apple());
+  Log.e("getFruitName","name1=="+name1);
+  Log.e("getFruitName","name2=="+name2);
+```
+
+#### 绑定多个限定
+上面我们讲了，有关绑定限定的用法，其实我们可以同时绑定多个绑定,用&连接，比如：
+```
+public static <T extends Fruit&Serializable> String getFruitName(T t){
+    return t.getName();
+}
+```
+再加深下难度，如果我们有多个泛型，每个泛型都带绑定，那应该是什么样子的呢：
+
+```
+public static <T extends Comparable & Serializable, U extends Runnable> T foo(T a, U b){
+	…………
+}
+```
+
+### 通配符
+首先我们看看如下例子：
+```
+Point<Integer> integerPoint = new Point<Integer>(3,3);
+Point<Float> floatPoint = new Point<Float>(4.3f,4.3f);
+Point<Double> doublePoint = new Point<Double>(4.3d,4.90d);
+Point<Long> longPoint = new Point<Long>(12l,23l);
+…………
+```
+在这段代码中，我们使用Point<T>生成了四个实例:integerPoint,floatPoint,doublePoint和longPoint；
+在这里，我们生成四个实例，就得想四个名字。
+那有没有一种办法，生成一个变量，可以将不同类型的实例赋值给他呢？
+
+#### 无边界通配符：？
+1:概述：
+如果我们拿刚才的问题这样实现呢
+```
+Point<?> point;
+
+point = new Point<Integer>(3,3);
+point = new Point<Float>(4.3f,4.3f);
+point = new Point<Double>(4.3d,4.90d);
+point = new Point<Long>(12l,23l);
+point = new Point<String>("12l","23l");
+point = new Point<Object>();
+```
+在这里，我们首先，利用下面的代码生成一个point实例，注意到，在填充泛型时，用的是?
+
+2:？与T的区别
+答案是：他们俩没有任何联系！！！！！
+* 泛型变量T不能在代码用于创建变量，只能在类，接口，函数中声明以后，才能使用。
+* 而无边界通配符？则只能用于填充泛型变量T，表示通配任何类型！！！！再重复一遍：？只能用于填充泛型变量T。它是用来填充T的！！！！只是填充方式的一种！！！
+
+3: 通配符只能用于填充泛型变量T,不能用于定义变量
+大家一定要记得，通配符的使用位置只有：
+```
+Box<?> box;
+box = new Box<String>();
+```
+即填充泛型变量T的位置，不能出现在后面String的位置！！！！
+下面这几种写法都是错误的
+```
+Box<?> box;
+box = new Box<?>(); //错误
+? x; //错误
+```
+
+#### 通配符？的extends绑定
+1：
+我们以上面的Point<T>泛型类为例，因为Point在实例意义中，其中的值是数值才有意义，所以将泛型变量T填充为Object类型、String类型等都是不正确的。
+所以我们要对Point<?> point加以限定：只有数值类型才能赋值给point；
+
+```
+    //通配符？的extends绑定
+        Point<? extends Number>point;
+        point=new Point<Number>();
+        point=new Point<Float>();
+        point=new Point<Integer>();
+        point=new Point<Double>();
+        point=new Point<Long>();
+        point=new Point<String>(); //错误
+        point=new Point<Object>();//错误
+```
+⚠️：
+大家注意到了没： new Point<Number>();也是可以成功赋值的，这说明包括边界自身。
+
+如果想从根本上解决乱填充Point的问题，需要从Point泛型类定义时加上<T extends Number>:
+```
+class Point<T extends Number> {
+    private T x;       // 表示X坐标
+    private T y;       // 表示Y坐标
+
+   …………
+}
+```
+2：利用<? extends Number>定义的变量，只可取其中的值，不可修改
+```
+  Number number = point.getX();
+  //point.setX(new Integer(123)); //报错
+```
+原因：
+首先，point的类型是由Point<? extends Number>决定的，并不会因为point = new Point<Integer>(3,3) 而改变类型。
+即便point = new Point<Integer>(3,3);之后，point的类型依然是Point<? extends Number>，即派生自Number类的未知类型！！！
+
+正因为point的类型为 Point<? extends Number> point，那也就是说，填充Point的泛型变量T的为<? extends Number>，这是一个什么类型？
+未知类型！！！怎么可能能用一个未知类型来设置内部值！这完全是不合理的。
+但取值时，正由于泛型变量T被填充为<? extends Number>，所以编译器能确定的是T肯定是Number的子类，编译器就会用Number来填充T
+
+#### 通配符？的super绑定
+如果说 <? extends XXX>指填充为派生于XXX的任意子类的话，那么<? super XXX>则表示填充为任意XXX的父类！
+
+我们先写三个类，Employee,Manager,CEO,分别代表工人，管理者，CEO
+其中Manager派生于Employee,CEO派生于Manager,代码如下：
+
+```
+class CEO extends Manager {
+}
+
+class Manager extends Employee {
+}
+
+class Employee {
+}
+```
+使用：
+```
+List<? super Manager> list;
+list = new ArrayList<Employee>();
+//存
+list.add(new Employee()); //编译错误
+list.add(new Manager());
+list.add(new CEO());
+```
+首先，需要声明的是，与Point<? extends Number> point中point的类型是由Point<? extends Number>确定的。
+list的item的类型始终是<? super Manager>，即Manager类的任意父类，即可能是Employee或者Object.
+大家可能疑惑的地方在于，为什么下面这两个是正确的！而list.add(new Employee()); 却是错误的！
+因为list里item的类型是<? super Manager>,即Manager的任意父类，我们假如是Employee，那下面这段代码大家能理解了吧：
+```
+List<Employee> list = new ArrayList<Employee>();
+list.add(new Manager());
+list.add(new CEO());
+```
+在这里，正因为Manager和CEO都是Employee的子类，在传进去list.add()后，会被强制转换为Employee！
+
+现在回过头来看这个：
+编译器无法确定<? super Manager>的具体类型，但唯一可以确定的是Manager()、CEO()肯定是<? super Manager>的子类，所以肯定是可以add进去的。
+但Employee不一定是<? super Manager>的子类，所以不能确定，不能确定的，肯定是不允许的，所以会报编译错误。
+最后再来看看取：
+
+```
+//取值：
+Object object = list.get(0);
+//Employee employee = list.get(0);//编译错误
+```
+我们知道list中item的类型为<? super Manager>，那编译器能肯定的是<? super Manager>肯定是Manger的父类；
+但不能确定，它是Object还是Employee类型。但无论是填充为Object还是Employee，它必然是Object的子类！
+所以Object object = list.get(0);是不报错的。因为 list.get(0);肯定是Object的子类；
+而编译器无法判断list.get(0)是不是Employee类型的，所以Employee employee = list.get(0);是报错的。
+
+#### Point与Point<T>构造泛型实例的区别
+```
+//使用Point<?>
+Point<?> point1 = new Point(new Integer(23),new Integer(23));
+Point<?> point2 = new Point(new String(""),new String(""));
+//直接使用Point
+Point point3 = new Point(new Integer(23),new Integer(23));
+Point point4 = new Point(new String(""),new String(""));
+```
+这四行代码在编译和运行时，都没有报错，而且输出结果也一样！
+**这说明：构造泛型实例时，如果省略了填充类型，则默认填充为无边界通配符！**
+
+> https://blog.csdn.net/harvic880925/article/details/49883589
+#### 通配符？总结
+* ? extends T
+如果你想从一个数据类型里获取数据，使用 ? extends 通配符（能取不能存）
+* ? super T
+如果你想把对象写入一个数据结构里，使用 ? super 通配符（能存不能取）
+
+便于记忆：上吐下写
+
+经典例子：
+```
+    public static void scen07() {
+        List<Apple> src = new ArrayList<>();
+        src.add(new Apple(1));
+        List<Apple> dest = new ArrayList<>(10);
+        dest.add(new Apple(2));
+        System.out.println(dest);
+        copy(dest,src);
+        System.out.println(dest);
+
+
+        List<Banana> src1 = new ArrayList<>();
+        src1.add(new Banana(1));
+        List<Banana> dest1 = new ArrayList<>(10);
+        dest1.add(new Banana(2));
+        copy1(dest1,src1);
+
+        List<Fruit> dest2 = new ArrayList<>(10);
+        dest2.add(new Banana());
+        Test1.<Banana>copy2(dest2,src1);
+
+        List<Fruit> dest3 = new ArrayList<>(10);
+        dest3.add(new Banana());
+        Test1.<Fruit>copy3(dest3,src1);
+
+
+
+    }
+
+    public static void copy(List<Apple> dest, List<Apple> src) {
+         Collections.copy(dest,src);
+    }
+
+    public static <T> void copy1(List<T> dest, List<T> src) {
+        Collections.copy(dest,src);
+    }
+
+    public static <T> void copy2(List<? super T> dest, List<T> src) {
+        Collections.copy(dest,src);
+    }
+
+    public static <T> void copy3(List<? super T> dest, List<? extends T> src) {
+        Collections.copy(dest,src);
+    }
+```
+
+
+

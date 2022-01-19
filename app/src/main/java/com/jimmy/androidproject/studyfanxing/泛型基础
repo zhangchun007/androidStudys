@@ -1,0 +1,245 @@
+### 一：泛型的定义
+泛型(Generic)是Java编程语言的强大功能。它们提高了代码的类型安全性，使你在编译时可以检测 到更多错误。
+
+### 二：各种泛型定义及使用
+#### 泛型类定义及使用
+#####  2.1 单泛型变量类的定义
+```
+//定义
+class Point<T>{// 此处可以随便写标识符号
+    private T x ;
+    private T y ;
+    public void setX(T x){//作为参数
+        this.x = x ;
+    }
+    public void setY(T y){
+        this.y = y ;
+    }
+    public T getX(){//作为返回值
+        return this.x ;
+    }
+    public T getY(){
+        return this.y ;
+    }
+};
+//IntegerPoint使用
+Point<Integer> p = new Point<Integer>() ;
+p.setX(new Integer(100)) ;
+System.out.println(p.getX());
+
+//FloatPoint使用
+Point<Float> p = new Point<Float>() ;
+p.setX(new Float(100.12f)) ;
+System.out.println(p.getX());
+
+```
+（1）、定义泛型：Point<T>
+首先，大家可以看到Point<T>，即在类名后面加一个尖括号，括号里是一个大写字母。这里写的是T，其实这个字母可以是任何大写字母，大家这里先记着，可以是任何大写字母，意义是相同的。
+
+（2）类中使用泛型
+这个T表示派生自Object类的任何类，比如String,Integer,Double等等。这里要注意的是，T一定是派生于Object类的。
+为方便起见，大家可以在这里把T当成String,即String在类中怎么用，那T在类中就可以怎么用！所以下面的：定义变量，作为返回值，作为参数传入的定义就很容易理解了。
+
+（3）使用泛型类
+这里与普通构造类实例的不同之点在于，普通类构造函数是这样的：Point p = new Point() ;
+而泛型类的构造则需要在类名后添加上<String>，即一对尖括号，中间写上要传入的类型。
+
+(4）使用泛型实现的优势
+* 不用强制转换
+* 如果传入类型不对，编译时会报错
+
+##### 2.2 多泛型变量定义及字母规范
+1:多泛型变量定义:
+
+上在我们只定义了一个泛型变量T，那如果我们需要传进去多个泛型要怎么办呢？
+只需要在类似下面这样就可以了：
+```
+class MorePoint<T,U>{
+}
+```
+
+2: 字母规范
+泛型变量可以是任意一个大写字母。他们的意义是完全相同的，但为了提高可读性，大家还是用有意义的字母比较好，一般来讲，在不同的情境下使用的字母意义如下：
+* E — Element，常用在java Collection里，如：List<E>,Iterator<E>,Set<E>
+* K,V — Key，Value，代表Map的键值对
+* N — Number，数字
+*  T — Type，类型，如String，Integer等等
+
+#### 泛型接口定义及使用
+1:定义：
+```
+interface Info<T>{        // 在接口上定义泛型
+    public T getVar() ; // 定义抽象方法，抽象方法的返回值就是泛型类型
+    public void setVar(T x);
+}
+```
+
+2.泛型接口的使用：
+
+2.1: 使用一：非泛型类
+```
+class InfoImpl implements Info<String>{	// 定义泛型接口的子类
+    private String var ;				// 定义属性
+    public InfoImpl(String var){		// 通过构造方法设置属性内容
+        this.setVar(var) ;
+    }
+    @Override
+    public void setVar(String var){
+        this.var = var ;
+    }
+    @Override
+    public String getVar(){
+        return this.var ;
+    }
+}
+
+public class GenericsDemo24{
+    public  void main(String arsg[]){
+        InfoImpl i = new InfoImpl("harvic");
+        System.out.println(i.getVar()) ;
+    }
+};
+```
+⚠️ 要清楚的一点是InfoImpl不是一个泛型类！因为他类名后没有<T>！
+
+2.1:使用二：泛型类
+
+```
+interface Info<T>{		// 在接口上定义泛型
+	public T getVar() ;	// 定义抽象方法，抽象方法的返回值就是泛型类型
+	public void setVar(T var);
+}
+class InfoImpl<T> implements Info<T>{	// 定义泛型接口的子类
+	private T var ;				// 定义属性
+	public InfoImpl(T var){		// 通过构造方法设置属性内容
+		this.setVar(var) ;
+	}
+	public void setVar(T var){
+		this.var = var ;
+	}
+	public T getVar(){
+		return this.var ;
+	}
+}
+public class GenericsDemo24{
+	public static void main(String arsg[]){
+		InfoImpl<String> i = new InfoImpl<String>("harvic");
+		System.out.println(i.getVar()) ;
+	}
+};
+```
+
+使用泛型类来继承泛型接口的作用就是让用户来定义接口所使用的变量类型，而不是像方法一那样，在类中写死。
+那我们稍微加深点难度，构造一个多个泛型变量的类，并继承自Info接口：
+```
+class InfoImpl<T,K,U> implements Info<U>{	// 定义泛型接口的子类
+     private U var ;
+     private T x;
+     private K y;
+     public InfoImpl(U var){		// 通过构造方法设置属性内容
+         this.setVar(var) ;
+     }
+     public void setVar(U var){
+         this.var = var ;
+     }
+     public U getVar(){
+         return this.var ;
+     }
+ }
+
+public class GenericsDemo24{
+    public  void main(String arsg[]){
+        InfoImpl<Integer,Double,String> i = new InfoImpl<Integer,Double,String>("harvic");
+        System.out.println(i.getVar()) ;
+    }
+}
+
+```
+
+#### 泛型函数定义及使用
+1:定义
+比如我们在新建一个普通的类StaticFans，然后在其中定义了两个泛型函数：
+```
+public class StaticFans {
+	//静态函数
+    public static  <T> void StaticMethod(T a){
+        Log.d("harvic","StaticMethod: "+a.toString());
+    }
+	//普通函数
+    public  <T> void OtherMethod(T a){
+        Log.d("harvic","OtherMethod: "+a.toString());
+    }
+}
+```
+2：使用
+```
+//静态方法
+StaticFans.StaticMethod("adfdsa");//使用方法一
+StaticFans.<String>StaticMethod("adfdsa");//使用方法二
+
+//常规方法
+StaticFans staticFans = new StaticFans();
+staticFans.OtherMethod(new Integer(123));//使用方法一
+staticFans.<Integer>OtherMethod(new Integer(123));//使用方法二
+```
+可以看到，与平常一样，先创建类的实例，然后调用泛型函数。
+方法一，隐式传递了T的类型，与上面一样，不建议这么做。
+方法二，显示将T赋值为Integer类型，这样OtherMethod（T a）传递过来的参数如果不是Integer那么编译器就会报错。
+
+3:返回值中存在泛型
+上面我们的函数中，返回值都是void，但现实中不可能都是void，有时，我们需要将泛型变量返回，比如下面这个函数：
+
+```
+public static <T> List<T> parseArray(String response,Class<T> object){
+    List<T> modelList = JSON.parseArray(response, object);
+    return modelList;
+}
+```
+
+#### Class<T>类传递及泛型数组
+1：使用Class<T>传递泛型类Class对象
+
+有时，我们会遇到一个情况，比如，我们在使用JSON解析字符串的时候，代码一般是这样的
+```
+public static List<SuccessModel> parseArray(String response){
+    List<SuccessModel> modelList = JSON.parseArray(response, SuccessModel.class);
+    return modelList;
+}
+```
+那现在，我们把下面这句组装成一个泛型函数要怎么来做呢?
+
+```
+public static <T> List<T> parseArray(String response,Class<T> object){
+    List<T> modelList = JSON.parseArray(response, object);
+    return modelList;
+}
+```
+⚠️
+注意到，我们用的Class<T> object来传递类的class对象，即我们上面提到的SuccessModel.class。
+这是因为Class<T>也是一泛型，它是传来用来装载类的class对象的，它的定义如下：
+```
+public final class Class<T> implements Serializable {
+	…………
+}
+```
+
+2:定义泛型数组
+在写程序时，大家可能会遇到类似String[] list = new String[8];的需求，这里可以定义String数组，
+当然我们也可以定义泛型数组，泛型数组的定义方法为 T[]，与String[]是一致的，下面看看用法：
+
+```
+//定义
+public static <T> T[] fun1(T...arg){  // 接收可变参数
+       return arg ;            // 返回泛型数组
+}
+//使用
+public static void main(String args[]){
+       Integer i[] = fun1(1,2,3,4,5,6) ;
+       Integer[] result = fun1(i) ;
+}
+```
+
+> https://qijian.blog.csdn.net/article/details/49872903?spm=1001.2014.3001.5502
+
+
+
