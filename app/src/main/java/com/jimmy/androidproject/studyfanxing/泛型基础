@@ -241,5 +241,12 @@ public static void main(String args[]){
 
 > https://qijian.blog.csdn.net/article/details/49872903?spm=1001.2014.3001.5502
 
-
+### 泛型擦除机制
+1. 检查泛型类型，获取目标类型
+    2. 擦除类型变量，并替换为限定类型
+如果泛型类型的类型变量没有限定(<T>),则用Object作为原始类型
+如果有限定(<T extends XClass>),则用XClass作为原始类型
+如果有多个限定(T extends XClass1&XClass2),则使用第一个边界XClass1作为原始类
+3. 在必要时插入类型转换以保持类型安全
+4. 生成桥方法以在扩展时保持多态性
 
