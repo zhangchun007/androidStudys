@@ -15,7 +15,7 @@ import java.util.List;
  * @CreateDate: 2021/5/21
  * @Version: 1.0
  */
-class FanXingActivity extends AppCompatActivity {
+public class FanXingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

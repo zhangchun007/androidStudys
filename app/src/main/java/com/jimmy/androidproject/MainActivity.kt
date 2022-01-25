@@ -13,6 +13,7 @@ import com.jimmy.androidproject.databinding.ActivityMainBinding
 import com.jimmy.androidproject.studycontentprovider.ContentProividerActivity
 import com.jimmy.androidproject.studyviewpager.ViewPagerStudyActivity
 import com.jimmy.androidproject.studyevent.EventStudyActivity
+import com.jimmy.androidproject.studyfanxing.FanXingActivity
 
 class MainActivity : AppCompatActivity(), OnItemClickListener {
 
@@ -43,6 +44,10 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             this.type = "event"
             this.content = "event事件"
         })
+        data.add(Project().apply {
+            this.type = "fanxing"
+            this.content = "泛型"
+        })
 
         return data
     }
@@ -68,6 +73,12 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
                 Intent(
                     MainActivity@ this,
                     EventStudyActivity::class.java
+                )
+            )
+            "fanxing" -> startActivity(
+                Intent(
+                    MainActivity@ this,
+                    FanXingActivity::class.java
                 )
             )
             else -> ""

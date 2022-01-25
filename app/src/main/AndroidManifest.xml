@@ -30,6 +30,7 @@
         <activity android:name=".studyviewpager.ViewPagerStudy1Activity" />
         <activity android:name=".studyviewpager.ViewPagerStudy2Activity" />
         <activity android:name=".studyevent.EventStudyActivity" />
+        <activity android:name=".studyfanxing.FanXingActivity" />
     </application>
 
 </manifest>
