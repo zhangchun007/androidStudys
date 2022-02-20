@@ -1,7 +1,7 @@
 package com.jimmy.androidproject.patternDesign.single;
 
 /**
- * @Description:
+ * @Description: https://cloud.tencent.com/developer/article/1708636
  * @Author: zhangchun
  * @CreateDate: 2022/2/11
  * @Version: 1.0
