@@ -3,6 +3,7 @@
     package="com.jimmy.androidproject">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +17,20 @@
             android:authorities="com.jimmy.databasetest.provider"
             android:enabled="true"
             android:exported="false" />
+
+
+<!--        //     android:enabled="true"//表示启用这个服务-->
+<!--        //    android:exported="true" //表示是否允许除了当前程序之外的其他程序访问这个服务-->
+        <service
+            android:enabled="true"
+            android:exported="true"
+            android:name=".service.MyService"/>
+
+        <service
+            android:enabled="true"
+            android:exported="true"
+            android:name=".service.MyBindService">
+        </service>
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -31,6 +46,7 @@
         <activity android:name=".studyviewpager.ViewPagerStudy2Activity" />
         <activity android:name=".studyevent.EventStudyActivity" />
         <activity android:name=".studyfanxing.FanXingActivity" />
+        <activity android:name=".service.ServiceActivity" />
     </application>
 
 </manifest>

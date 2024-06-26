@@ -33,7 +33,7 @@ public class FanXingActivity extends AppCompatActivity {
         // 所以我们明确的知道我们传进去的是Float类型，那如果我们记错了呢？
         ObjectPoint floatPoints = new ObjectPoint();
         floatPoints.setX(new Float(100.12f));
-        String floatX1 = (String) floatPoints.getX();
+//        String floatX1 = (String) floatPoints.getX(); //报错
 
         //强制转换时，不会出错。因为编译器也不知道你传进去的是什么，而floatPoint.getX()返回的类型是Object，所以编译时，将Object强转成String是成立的。必然不会报错。
         // 而在运行时，则不然，在运行时，floatPoint实例中明明传进去的是Float类型的变量，非要把它强转成String类型，肯定会报类型转换错误的！

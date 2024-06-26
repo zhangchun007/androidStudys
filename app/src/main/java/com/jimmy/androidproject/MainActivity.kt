@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.jimmy.androidproject.adapter.MainAdapter
 import com.jimmy.androidproject.bean.Project
 import com.jimmy.androidproject.databinding.ActivityMainBinding
+import com.jimmy.androidproject.service.ServiceActivity
 import com.jimmy.androidproject.studycontentprovider.ContentProividerActivity
 import com.jimmy.androidproject.studyviewpager.ViewPagerStudyActivity
 import com.jimmy.androidproject.studyevent.EventStudyActivity
@@ -48,6 +49,10 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             this.type = "fanxing"
             this.content = "泛型"
         })
+        data.add(Project().apply {
+            this.type = "service"
+            this.content = "服务"
+        })
 
         return data
     }
@@ -79,6 +84,12 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
                 Intent(
                     MainActivity@ this,
                     FanXingActivity::class.java
+                )
+            )
+            "service" -> startActivity(
+                Intent(
+                    MainActivity@ this,
+                    ServiceActivity::class.java
                 )
             )
             else -> ""
