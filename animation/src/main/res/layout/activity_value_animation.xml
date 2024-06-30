@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.ValueAnimationActivity">
+    <Button
+        android:id="@+id/btn_value_animation"
+        android:text="数值动画"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></Button>
+
+    <Button
+        android:id="@+id/btn_remove_animation"
+        android:text="移除监听"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></Button>
+
+    <TextView
+        android:id="@+id/tv_value_animation"
+        android:text="jimmy"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:background="@color/purple_200"
+        android:layout_width="100dp"
+        android:layout_height="50dp"></TextView>
+
+    <Button
+        android:id="@+id/btn_demo"
+        android:text="loading例子"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></Button>
+
+</LinearLayout>
