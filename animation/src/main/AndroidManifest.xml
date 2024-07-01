@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".ui.ValueAnimationActivity"
+            android:name=".valueanimator.ValueAnimatorSimpleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".valueanimator.ValueAnimationActivity"
             android:exported="false" />
         <activity
             android:name=".ui.ViewAnimationActivity"

@@ -1,10 +1,12 @@
-package com.jimmy.animation.ui
+package com.jimmy.animation.valueanimator
 
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.animation.ValueAnimator
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.AccelerateInterpolator
 import android.widget.Button
 import android.widget.TextView
 import com.jimmy.animation.R
@@ -13,6 +15,8 @@ class ValueAnimationActivity : AppCompatActivity() {
     var btn_value_animation: Button? = null
     var btn_remove_animation: Button? = null
     var btn_demo: Button? = null
+    var btn_demo2: Button? = null
+    var tv_result: TextView? = null
     var tv_value_animation: TextView? = null
 
     var animator: ValueAnimator? = null
@@ -23,14 +27,28 @@ class ValueAnimationActivity : AppCompatActivity() {
         btn_remove_animation = findViewById(R.id.btn_remove_animation);
         btn_demo = findViewById(R.id.btn_demo);
         tv_value_animation = findViewById(R.id.tv_value_animation);
+        btn_demo2 = findViewById(R.id.btn_demo2);
+        tv_result = findViewById(R.id.tv_result);
         btn_value_animation?.setOnClickListener {
             doAnimation()
         }
+
+
         btn_remove_animation?.setOnClickListener {
             removeAnimaton()
         }
         btn_demo?.setOnClickListener {
-            removeAnimaton()
+            startActivity(
+                Intent(
+                    ValueAnimationActivity@ this,
+                    ValueAnimatorSimpleActivity::class.java
+                )
+            )
+        }
+
+
+        btn_demo2?.setOnClickListener {
+            doAnimations()
         }
 
     }
@@ -66,7 +84,19 @@ class ValueAnimationActivity : AppCompatActivity() {
         animator?.repeatMode = ValueAnimator.REVERSE
         animator?.repeatCount = ValueAnimator.INFINITE
         animator?.setDuration(1000)
+        animator?.setEvaluator(ReverseEvaluator())
         animator?.start()
 
+    }
+
+    private fun doAnimations() {
+        var animator = ValueAnimator.ofObject(CharEvaluator(), Character('A'), Character('Z'))
+        animator.addUpdateListener {
+            var textResult = it.getAnimatedValue()
+            tv_result?.text = textResult.toString()
+        }
+        animator.duration = 1000
+        animator.interpolator = AccelerateInterpolator()
+        animator.start()
     }
 }

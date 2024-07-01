@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.ValueAnimationActivity">
+    tools:context=".valueanimator.ValueAnimationActivity">
     <Button
         android:id="@+id/btn_value_animation"
         android:text="数值动画"
@@ -33,5 +33,18 @@
         android:text="loading例子"
         android:layout_width="match_parent"
         android:layout_height="50dp"></Button>
+
+    <Button
+        android:id="@+id/btn_demo2"
+        android:text="ValueAnimator.ofObject"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></Button>
+
+    <TextView
+        android:id="@+id/tv_result"
+        android:textSize="18dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
 
 </LinearLayout>
